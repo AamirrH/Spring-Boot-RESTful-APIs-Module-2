@@ -29,7 +29,7 @@ public class EmployeeController {
     }
 
     //Request Params are optional, and we may or may not provide them in the URL.
-    @GetMapping(path = "/employees")
+    @GetMapping(path = "/allemployees")
     public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false) int age,
                                  @RequestParam(required = false) String name){
         return employeeService.findAll() ;

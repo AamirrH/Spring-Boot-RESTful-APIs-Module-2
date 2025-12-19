@@ -1,6 +1,7 @@
 package com.codeexample.springbootrestapi.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,8 @@ public class EmployeeEntity {
     private String name;
     private String email;
     private Integer age;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfJoining;
-    private Boolean isActive;
+    private Boolean active;
 
 }
