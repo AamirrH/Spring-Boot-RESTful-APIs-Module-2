@@ -5,6 +5,7 @@ import com.codeexample.springbootrestapi.dto.EmployeeDTO;
 import com.codeexample.springbootrestapi.entities.EmployeeEntity;
 import com.codeexample.springbootrestapi.repositories.EmployeeRepository;
 import com.codeexample.springbootrestapi.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,14 +39,26 @@ public class EmployeeController {
 
     //Browser can only send GET Requests, so we need Postman for these mappings.
     @PostMapping(path = "/employees")
-    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO inputEmployee){
+    // @Valid - Checks the EmployeeDTO for valid annotations.
+    public EmployeeDTO createEmployee(@RequestBody @Valid EmployeeDTO inputEmployee){
         return employeeService.save(inputEmployee);
     }
 
-    @PutMapping
-    public String updateEmployeebyId(){
-        return "Hello From POST";
+    //Changing whole data of an employee on the backend, use PUT Mapping
+    @PutMapping(path = "/employee/{employeeID}")
+    public EmployeeDTO updateEmployeebyId(@RequestBody EmployeeDTO inputEmployee, @PathVariable(name="employeeID") int empID){
+        return employeeService.updateEmployeeID(inputEmployee,empID);
     }
+
+    @DeleteMapping(path = "/{employeeID}")
+    public String deleteEmployee(@PathVariable(name = "employeeID") int empID){
+        employeeService.deleteEmployee(empID);
+        return "Employee Deleted Successfully";
+    }
+
+    // Partially Update details of an employee
+    //@PatchMapping(path = )
+
 
 
 

@@ -25,6 +25,8 @@ public class EmployeeEntity {
     private String name;
     private String email;
     private Integer age;
+    private Double salary;
+    private String role;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfJoining;
     private Boolean active;
