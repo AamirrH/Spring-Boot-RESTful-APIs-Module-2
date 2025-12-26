@@ -64,9 +64,10 @@ public class EmployeeService {
     }
 
     public EmployeeDTO updateEmployeeDetails(int empID, Map<String,Object> fieldToBeUpdated){
+        System.out.println("BreakPoint-2");
         EmployeeEntity employeeEntity = employeeRepository.findById(empID).orElse(null);
-        if(existsById(empID)) {
-            fieldToBeUpdated.forEach((fieldName,fieldValue) -> {
+        System.out.println("BreakPoint-3");
+        fieldToBeUpdated.forEach((fieldName,fieldValue) -> {
                 Field fieldToUpdate = ReflectionUtils.findField(EmployeeEntity.class,fieldName);
                 /* ReflectionUtils.findField goes to the targeted EmployeeEntity class and then finds similar fields
                 provided by the user, for example if user provides "name", it goes to Entity class then finds the name
@@ -82,7 +83,8 @@ public class EmployeeService {
                 due to the forEach loop.
                  */
             });
-        }
-        return modelMapper.map(employeeRepository.save(employeeEntity), EmployeeDTO.class);
+            return modelMapper.map(employeeRepository.save(employeeEntity), EmployeeDTO.class);
+
+
     }
 }

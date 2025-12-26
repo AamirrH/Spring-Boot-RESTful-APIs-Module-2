@@ -3,13 +3,17 @@ package com.codeexample.springbootrestapi.dto;
 
 import com.codeexample.springbootrestapi.annotations.EmployeeRoleValidation;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeDTO {
 
     private Long id;
@@ -23,7 +27,7 @@ public class EmployeeDTO {
     // xyz@mail.com format
     private String email;
 
-    @NotBlank(message = "Age should be provided ")
+    //@NotBlank(message = "Age should be provided ")
     @Max(value = 100,message = "Age cannot be greater than 100")
     @Min(value = 18,message = "Age cannot be less than 18")
     private Integer age;
