@@ -7,9 +7,12 @@ import com.codeexample.springbootrestapi.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
 import java.lang.ScopedValue;
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,7 +55,34 @@ public class EmployeeService {
         return modelMapper.map(returnedEntity, EmployeeDTO.class);
     }
 
+    public boolean existsById(int empID){
+        return employeeRepository.existsById(empID);
+    }
+
     public void deleteEmployee(int empID) {
         employeeRepository.deleteById(empID);
+    }
+
+    public EmployeeDTO updateEmployeeDetails(int empID, Map<String,Object> fieldToBeUpdated){
+        EmployeeEntity employeeEntity = employeeRepository.findById(empID).orElse(null);
+        if(existsById(empID)) {
+            fieldToBeUpdated.forEach((fieldName,fieldValue) -> {
+                Field fieldToUpdate = ReflectionUtils.findField(EmployeeEntity.class,fieldName);
+                /* ReflectionUtils.findField goes to the targeted EmployeeEntity class and then finds similar fields
+                provided by the user, for example if user provides "name", it goes to Entity class then finds the name
+                field and puts it inside a field object called fieldToUpdate.
+                 */
+                fieldToUpdate.setAccessible(true);
+                /* fieldToUpdate basically allows for modification of the value of this field, so the value of the name
+                in the previous example can be set again.
+                */
+                ReflectionUtils.setField(fieldToUpdate,employeeEntity,fieldValue);
+                /* setField method takes the Field object, Target Class and fieldValue from the map and modifies the
+                field object and sets it with fieldValue's new value. This happens for all Strings provided in the Map
+                due to the forEach loop.
+                 */
+            });
+        }
+        return modelMapper.map(employeeRepository.save(employeeEntity), EmployeeDTO.class);
     }
 }

@@ -14,9 +14,12 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = {EmployeeRoleValidator.class})
 public @interface EmployeeRoleValidation {
 
+    // Message to display if validation fails and isValid return false.
     String message() default "Employee Role Validation Failed";
+
 
     Class<?>[] groups() default{};
 
+    // Payload is basically the data, which has to validated
     Class<? extends Payload>[] payload() default {};
 }

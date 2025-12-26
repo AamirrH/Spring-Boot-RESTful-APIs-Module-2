@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController//Provides a JSON response, Jackson Library converts to JSON
 public class EmployeeController {
@@ -47,6 +48,7 @@ public class EmployeeController {
     //Changing whole data of an employee on the backend, use PUT Mapping
     @PutMapping(path = "/employee/{employeeID}")
     public EmployeeDTO updateEmployeebyId(@RequestBody EmployeeDTO inputEmployee, @PathVariable(name="employeeID") int empID){
+
         return employeeService.updateEmployeeID(inputEmployee,empID);
     }
 
@@ -57,7 +59,11 @@ public class EmployeeController {
     }
 
     // Partially Update details of an employee
-    //@PatchMapping(path = )
+    @PatchMapping(path = "/{employeeId}" )
+    public EmployeeDTO updateEmployeeDetails(@PathVariable(name = "employeeId") int empID, Map<String,Object> fieldUpdate){
+        return employeeService.updateEmployeeDetails(empID,fieldUpdate);
+
+    }
 
 
 
