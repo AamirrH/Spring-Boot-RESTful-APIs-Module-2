@@ -3,6 +3,7 @@ package com.codeexample.springbootrestapi.controllers;
 
 import com.codeexample.springbootrestapi.dto.EmployeeDTO;
 import com.codeexample.springbootrestapi.entities.EmployeeEntity;
+import com.codeexample.springbootrestapi.exceptions.ResourceNotFoundException;
 import com.codeexample.springbootrestapi.repositories.EmployeeRepository;
 import com.codeexample.springbootrestapi.services.EmployeeService;
 import jakarta.validation.Valid;
@@ -38,7 +39,7 @@ public class EmployeeController {
             return ResponseEntity.ok().body(employeeDTO);
         }
         else{
-            return ResponseEntity.notFound().build();
+            throw new ResourceNotFoundException("Employee does not exist with ID: "+ID);
         }
     }
 
